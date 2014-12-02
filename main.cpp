@@ -53,18 +53,13 @@ int main(int argc, char* argv[]) {
 
 
             Grille grille(renderer);
-            grille.getCase(10,10)->setPheromoneFoodLevel(255);
-            grille.getCase(25,25)->setPheromoneTravelLevel(255);
 
-            grille.getCase(45,45)->setPheromoneFoodLevel(255);
-            grille.getCase(45,45)->setPheromoneTravelLevel(255);
-
-            int colonyX = 50;
-            int colonyY = 50;
+            int colonyX = 90;
+            int colonyY = 90;
 
             int mielX = 10;
             int mielY = 10;
-            int antNumber = 100;
+            int antNumber = 400;
             Ant*family[antNumber];
             for(int i=0;i<antNumber;i++){
                 family[i] = new Ant(&grille,renderer);
@@ -143,7 +138,7 @@ int main(int argc, char* argv[]) {
                 SDL_RenderFillRect( renderer, &fillColonyRect );
 
                 SDL_RenderPresent(renderer);
-                SDL_Delay(100);
+                //SDL_Delay(100);
 
             }while(run);
         }

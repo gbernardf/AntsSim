@@ -16,6 +16,7 @@ public:
 private:
     Case* cases[100][100];
     SDL_Renderer* renderer = NULL;
+    int compteur;
 };
 
 #endif // GRILLE_H

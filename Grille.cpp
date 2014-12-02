@@ -8,6 +8,7 @@ Grille::Grille(SDL_Renderer* renderer){
         }
 
     }
+    compteur = 0;
     this->renderer = renderer;
 }
 
@@ -32,14 +33,19 @@ void Grille::draw(){
 }
 
 void Grille::lowerPheromonLevel(){
-    for(int i = 0;i<100;i++){
-        for(int j = 0; j<100;j++){
-            if(cases[i][j]->getPheromoneFoodLevel() > 0){
-                cases[i][j]->setPheromoneFoodLevel(cases[i][j]->getPheromoneFoodLevel() - 1 );
-            }
-            if(cases[i][j]->getPheromoneTravelLevel() > 0){
-                cases[i][j]->setPheromoneTravelLevel(cases[i][j]->getPheromoneTravelLevel() - 1 );
+    compteur ++;
+    if(compteur == 8){
+         for(int i = 0;i<100;i++){
+            for(int j = 0; j<100;j++){
+                if(cases[i][j]->getPheromoneFoodLevel() > 0){
+                    cases[i][j]->setPheromoneFoodLevel(cases[i][j]->getPheromoneFoodLevel() - 1 );
+                }
+                if(cases[i][j]->getPheromoneTravelLevel() > 0){
+                    cases[i][j]->setPheromoneTravelLevel(cases[i][j]->getPheromoneTravelLevel() - 1 );
+                }
             }
         }
+        compteur = 0;
     }
+   
 }

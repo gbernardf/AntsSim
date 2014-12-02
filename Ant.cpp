@@ -17,13 +17,17 @@ void Ant::move(){
     if(posX >=100)posX=99;
     if(posY < 0)posY=0;
     if(posY >= 100)posY=99;
-    draw();
-    // travel +=1;
-    // food += 1;
-    if(travel>=255)travel=255;
-    if(food>=255)food=255;
-    grille->getCase(posX,posY)->setPheromoneTravelLevel(travel);
-    grille->getCase(posX,posY)->setPheromoneFoodLevel(food);
+    //draw();
+    travel -=3;
+    food -= 3;
+    if(travel<=0)travel=0;
+    if(food<=0)food=0;
+    if(grille->getCase(posX,posY)->getPheromoneTravelLevel()<travel){
+        grille->getCase(posX,posY)->setPheromoneTravelLevel(travel);
+    }
+    if(grille->getCase(posX,posY)->getPheromoneFoodLevel()<food){
+        grille->getCase(posX,posY)->setPheromoneFoodLevel(food);
+    }
 }
 
 void Ant::draw(){
