@@ -62,6 +62,9 @@ int main(int argc, char* argv[]) {
             int colonyX = 50;
             int colonyY = 50;
 
+            int mielX = 40;
+            int mielY = 40;
+
             Ant*family[100];
             for(int i=0;i<100;i++){
                 family[i] = new Ant(&grille,renderer);
@@ -106,14 +109,39 @@ int main(int argc, char* argv[]) {
 
                 grille.draw();
                 grille.lowerPheromonLevel();
+                grille.getCase(colonyX,colonyY)->setPheromoneTravelLevel(255);
+                grille.getCase(colonyX+1,colonyY)->setPheromoneTravelLevel(255);
+                grille.getCase(colonyX+2,colonyY)->setPheromoneTravelLevel(255);
+                grille.getCase(colonyX,colonyY+1)->setPheromoneTravelLevel(255);
+                grille.getCase(colonyX,colonyY+2)->setPheromoneTravelLevel(255);
+                grille.getCase(colonyX+1,colonyY+1)->setPheromoneTravelLevel(255);
+                grille.getCase(colonyX+2,colonyY+2)->setPheromoneTravelLevel(255);
+                grille.getCase(colonyX+1,colonyY+2)->setPheromoneTravelLevel(255);
+                grille.getCase(colonyX+2,colonyY+1)->setPheromoneTravelLevel(255);
+
+                grille.getCase(mielX,mielY)->setPheromoneFoodLevel(255);
+                grille.getCase(mielX+1,mielY)->setPheromoneFoodLevel(255);
+                grille.getCase(mielX+2,mielY)->setPheromoneFoodLevel(255);
+                grille.getCase(mielX,mielY+1)->setPheromoneFoodLevel(255);
+                grille.getCase(mielX,mielY+2)->setPheromoneFoodLevel(255);
+                grille.getCase(mielX+1,mielY+1)->setPheromoneFoodLevel(255);
+                grille.getCase(mielX+2,mielY+2)->setPheromoneFoodLevel(255);
+                grille.getCase(mielX+1,mielY+2)->setPheromoneFoodLevel(255);
+                grille.getCase(mielX+2,mielY+1)->setPheromoneFoodLevel(255);
 //                albert->move();
 //                albertine->move();
                 for(int i=0;i<100;i++){
                     family[i]->move();
                 }
-                SDL_Rect fillRect = { colonyX*6, colonyY*6 ,24, 24};
+                //miel
+                SDL_SetRenderDrawColor( renderer, 0xFF, 0xB4, 0x00, 0xFF );
+                SDL_Rect fillMielRect = { mielX*6, mielY*6 ,24, 24};
+                SDL_RenderFillRect( renderer, &fillMielRect );
+                //colony
                 SDL_SetRenderDrawColor( renderer, 0x00, 0xFF, 0x00, 0xFF );
-                SDL_RenderFillRect( renderer, &fillRect );
+                SDL_Rect fillColonyRect = { colonyX*6, colonyY*6 ,24, 24};
+                SDL_RenderFillRect( renderer, &fillColonyRect );
+
                 SDL_RenderPresent(renderer);
                 SDL_Delay(100);
 

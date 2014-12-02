@@ -21,6 +21,7 @@ private:
     int posX;
     int posY;
     bool carrying;
+    void searchPos();
 
     void draw();
 };
