@@ -64,9 +64,9 @@ int main(int argc, char* argv[]) {
 
             int mielX = 10;
             int mielY = 10;
-
-            Ant*family[100];
-            for(int i=0;i<100;i++){
+            int antNumber = 100;
+            Ant*family[antNumber];
+            for(int i=0;i<antNumber;i++){
                 family[i] = new Ant(&grille,renderer);
                 family[i]->setPosX(colonyX);
                 family[i]->setPosY(colonyY);
@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
                 grille.getCase(mielX+2,mielY+1)->setPheromoneFoodLevel(255);
 //                albert->move();
 //                albertine->move();
-                for(int i=0;i<100;i++){
+                for(int i=0;i<antNumber;i++){
                     family[i]->move();
                 }
                 //miel
