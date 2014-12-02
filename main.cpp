@@ -62,8 +62,8 @@ int main(int argc, char* argv[]) {
             int colonyX = 50;
             int colonyY = 50;
 
-            int mielX = 40;
-            int mielY = 40;
+            int mielX = 10;
+            int mielY = 10;
 
             Ant*family[100];
             for(int i=0;i<100;i++){
