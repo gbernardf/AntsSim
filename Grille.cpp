@@ -34,7 +34,7 @@ void Grille::draw(){
 
 void Grille::lowerPheromonLevel(){
     compteur ++;
-    if(compteur == 30){
+    if(compteur == 10){
          for(int i = 0;i<100;i++){
             for(int j = 0; j<100;j++){
                 if(cases[i][j]->getPheromoneFoodLevel() > 0){

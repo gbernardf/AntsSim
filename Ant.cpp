@@ -26,8 +26,8 @@ void Ant::move(){
     if(posY < 0)posY=0;
     if(posY >= 100)posY=99;
     draw();
-    travel -=3;
-    food -= 3;
+    travel -=2;
+    food -= 2;
     if(travel<=0)travel=0;
     if(food<=0)food=0;
     if(grille->getCase(posX,posY)->getPheromoneTravelLevel()<travel){
@@ -39,8 +39,15 @@ void Ant::move(){
 }
 
 void Ant::draw(){
+    int r = 0xFF;
+    int g = 0xFF;
+    int b = 0xFF;
+    if(carrying){
+        r = 0x00;
+        b = 0x00;
+    }
     SDL_Rect fillRect = { posX*6, posY*6 ,6, 6};
-    SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+    SDL_SetRenderDrawColor( renderer, r, g, b, 0xFF );
     SDL_RenderFillRect( renderer, &fillRect );
 }
 
