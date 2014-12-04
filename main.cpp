@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
                 SDL_RenderFillRect( renderer, &fillColonyRect );
 
                 SDL_RenderPresent(renderer);
-                //SDL_Delay(100);
+                //SDL_Delay(50);
 
             }while(run);
         }
