@@ -7,7 +7,7 @@ class Miel
 {
 public:
     Miel(Grille* grille, int x, int y);
-    void update();
+    void remove();
     void draw(SDL_Renderer* renderer);
 
 private:

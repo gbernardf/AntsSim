@@ -13,8 +13,8 @@ void Ant::move(){
     int travel = grille->getCase(posX,posY)->getPheromoneTravelLevel();
     int food = grille->getCase(posX,posY)->getPheromoneFoodLevel();
 
-    if(food == 255)carrying = true;
-    if((travel == 255) && (carrying == true)){
+    if(grille->getCase(posX,posY)->isFood())carrying = true;
+    if((grille->getCase(posX,posY)->isColony()) && (carrying == true)){
         carrying = false;
         searching = true;
     }
@@ -74,7 +74,7 @@ void Ant::searchPos(){
         int newPosY = 0;
         int backTravel = grille->getCase(posX,posY)->getPheromoneTravelLevel();
 
-        if((posX - 1 >= 0) && (posX + 1 < 100) && (posY - 1 >= 0) && (posY + 1 < 100)){
+        if((posX - 1 > 0) && (posX + 1 < 100) && (posY - 1 > 0) && (posY + 1 < 100)){
             if(grille->getCase(posX-1,posY+1)->getPheromoneTravelLevel()>backTravel){
                 backTravel = grille->getCase(posX-1,posY+1)->getPheromoneTravelLevel();
                 newPosX = posX-1;
