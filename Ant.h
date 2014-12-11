@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #include "Grille.h"
 #include <stdlib.h>
+#include "Direction.h"
+#include <list>
 
 class Ant
 {
@@ -18,6 +20,14 @@ public:
 private:
     Grille* grille;
     SDL_Renderer* renderer;
+    std::list <Direction*> directions;
+    Direction findMoreFood();
+    Direction findLessFood();
+    Direction findMoreTravel();
+    Direction findLessTravel();
+
+    void updateDirections();
+    void getDirections();
     int posX;
     int posY;
     bool carrying;
@@ -26,6 +36,8 @@ private:
     void randPos();
 
     void draw();
+    void diffuse();
+    void spreadPheromoneFood(int x, int y, int food);
 };
 
 #endif // ANT_H

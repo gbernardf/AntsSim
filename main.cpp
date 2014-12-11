@@ -5,6 +5,7 @@
 #include "Ant.h"
 #include "Miel.h"
 #include "Colony.h"
+#include "Wall.h"
 
 #include <list>
 
@@ -52,10 +53,10 @@ int main(int argc, char* argv[]) {
 
             int colonyX = 90;
             int colonyY = 90;
-            Colony colony(colonyX,colonyY);
-            colony.setGrille(&grille);
+            Colony colony(&grille,colonyX,colonyY);
             std::list <Miel*> miels;
-            int antNumber = 75;
+            std::list <Wall*> walls;
+            int antNumber = 100;
             Ant*family[antNumber];
             for(int i=0;i<antNumber;i++){
                 family[i] = new Ant(&grille,renderer);
@@ -85,8 +86,15 @@ int main(int argc, char* argv[]) {
                         }
 
                     }else if(event.type == SDL_MOUSEBUTTONDOWN){
-                        Miel* miel2 = new Miel(&grille,event.button.x/6,event.button.y/6);
-                        miels.push_back(miel2);
+                        int x = event.button.x/6;
+                        int y = event.button.y/6;
+                        if(event.button.button == SDL_BUTTON_LEFT){
+                            Miel* miel2 = new Miel(&grille,x,y);
+                            miels.push_back(miel2);
+                        }else if(event.button.button == SDL_BUTTON_RIGHT){
+                            Wall* wall = new Wall(&grille,x,y);
+                            walls.push_back(wall);
+                        }
                     }
                 }
 
@@ -97,13 +105,6 @@ int main(int argc, char* argv[]) {
                 for(int i=0;i<antNumber;i++){
                     family[i]->move();
                 }
-
-                if(!miels.empty()){
-                    for (std::list<Miel*>::const_iterator it = miels.begin(), end = miels.end(); it != end; ++it) {
-                        (*it)->draw(renderer);
-                    }
-                }
-                colony.draw(renderer);
                 SDL_RenderPresent(renderer);
                 //SDL_Delay(50);
 

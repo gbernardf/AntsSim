@@ -5,6 +5,7 @@ Case::Case(){
     pheromoneTravelLevel = 0;
     food = false;
     colony = false;
+    wall = false;
 }
 
 
@@ -14,6 +15,10 @@ bool Case::isFood(){
 
 bool Case::isColony(){
     return colony;
+}
+
+bool Case::isWall(){
+    return wall;
 }
 
 int Case::getPheromoneFoodLevel(){
@@ -38,4 +43,8 @@ void Case::setFood(bool food){
 
 void Case::setColony(bool colony){
     this->colony = colony;
+}
+
+void Case::setWall(bool wall){
+    this->wall = wall;
 }

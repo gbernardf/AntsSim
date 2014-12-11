@@ -13,18 +13,16 @@ void Ant::move(){
     int travel = grille->getCase(posX,posY)->getPheromoneTravelLevel();
     int food = grille->getCase(posX,posY)->getPheromoneFoodLevel();
 
-    if(grille->getCase(posX,posY)->isFood())carrying = true;
+    if(grille->getCase(posX,posY)->isFood()&&searching == true){
+        carrying = true;
+        searching = false;
+    }
     if((grille->getCase(posX,posY)->isColony()) && (carrying == true)){
         carrying = false;
         searching = true;
     }
-    if(carrying)searching = false;
     
     searchPos();
-    if(posX < 0)posX=0;
-    if(posX >=100)posX=99;
-    if(posY < 0)posY=0;
-    if(posY >= 100)posY=99;
     draw();
     travel -=2;
     food -= 2;
@@ -36,6 +34,7 @@ void Ant::move(){
     if(grille->getCase(posX,posY)->getPheromoneFoodLevel()<food){
         grille->getCase(posX,posY)->setPheromoneFoodLevel(food);
     }
+    diffuse();
 }
 
 void Ant::draw(){
@@ -69,156 +68,178 @@ void Ant::setPosY(int y){
 }
 
 void Ant::searchPos(){
-    if(carrying){
-        int newPosX = 0;
-        int newPosY = 0;
-        int backTravel = grille->getCase(posX,posY)->getPheromoneTravelLevel();
+    getDirections();
+    int odds = rand()%100 +1;
+    if(odds > 0){
+        Direction newDirection(posX,posY);
+        if(searching){
+            newDirection = findMoreFood();
+            if(newDirection.getX() == posX && newDirection.getY() == posY){
+                //newDirection = findLessTravel();
+            }
 
-        if((posX - 1 > 0) && (posX + 1 < 100) && (posY - 1 > 0) && (posY + 1 < 100)){
-            if(grille->getCase(posX-1,posY+1)->getPheromoneTravelLevel()>backTravel){
-                backTravel = grille->getCase(posX-1,posY+1)->getPheromoneTravelLevel();
-                newPosX = posX-1;
-                newPosY = posY+1;
-            }
-            if(grille->getCase(posX,posY+1)->getPheromoneTravelLevel()>backTravel){
-                backTravel = grille->getCase(posX,posY+1)->getPheromoneTravelLevel();
-                newPosX = posX;
-                newPosY = posY+1;
-            }
-            if(grille->getCase(posX+1,posY+1)->getPheromoneTravelLevel()>backTravel){
-                backTravel = grille->getCase(posX+1,posY+1)->getPheromoneTravelLevel();
-                newPosX = posX+1;
-                newPosY = posY+1;
-            }
-            if(grille->getCase(posX-1,posY)->getPheromoneTravelLevel()>backTravel){
-                backTravel = grille->getCase(posX-1,posY)->getPheromoneTravelLevel();
-                newPosX = posX-1;
-                newPosY = posY;
-            }
-            if(grille->getCase(posX+1,posY)->getPheromoneTravelLevel()>backTravel){
-                backTravel = grille->getCase(posX+1,posY)->getPheromoneTravelLevel();
-                newPosX = posX+1;
-                newPosY = posY;
-            }
-            if(grille->getCase(posX-1,posY-1)->getPheromoneTravelLevel()>backTravel){
-                backTravel = grille->getCase(posX-1,posY-1)->getPheromoneTravelLevel();
-                newPosX = posX-1;
-                newPosY = posY-1;
-            }
-            if(grille->getCase(posX,posY-1)->getPheromoneTravelLevel()>backTravel){
-                backTravel = grille->getCase(posX,posY-1)->getPheromoneTravelLevel();
-                newPosX = posX;
-                newPosY = posY-1;
-            }
-            if(grille->getCase(posX+1,posY-1)->getPheromoneTravelLevel()>backTravel){
-                backTravel = grille->getCase(posX+1,posY-1)->getPheromoneTravelLevel();
-                newPosX = posX+1;
-                newPosY = posY-1;
+        }else if(carrying){
+            newDirection = findMoreTravel();
+            if(newDirection.getX() == posX && newDirection.getY() == posY){
+                //newDirection = findLessFood();
             }
         }
-
-
-
-        if(backTravel !=0){
-            posX = newPosX;
-            posY = newPosY;
-        }else{
+        if(newDirection.getX() == posX && newDirection.getY() == posY){
             randPos();
-        }
-
-    }else if(searching){
-        int newPosX = 0;
-        int newPosY = 0;
-        int foodLevel = grille->getCase(posX,posY)->getPheromoneFoodLevel();
-
-        if((posX - 1 >= 0) && (posX + 1 < 100) && (posY - 1 >= 0) && (posY + 1 < 100)){
-            if(grille->getCase(posX-1,posY+1)->getPheromoneFoodLevel()>foodLevel){
-                foodLevel = grille->getCase(posX-1,posY+1)->getPheromoneFoodLevel();
-                newPosX = posX-1;
-                newPosY = posY+1;
-            }
-            if(grille->getCase(posX,posY+1)->getPheromoneFoodLevel()>foodLevel){
-                foodLevel = grille->getCase(posX,posY+1)->getPheromoneFoodLevel();
-                newPosX = posX;
-                newPosY = posY+1;
-            }
-            if(grille->getCase(posX+1,posY+1)->getPheromoneFoodLevel()>foodLevel){
-                foodLevel = grille->getCase(posX+1,posY+1)->getPheromoneFoodLevel();
-                newPosX = posX+1;
-                newPosY = posY+1;
-            }
-            if(grille->getCase(posX-1,posY)->getPheromoneFoodLevel()>foodLevel){
-                foodLevel = grille->getCase(posX-1,posY)->getPheromoneFoodLevel();
-                newPosX = posX-1;
-                newPosY = posY;
-            }
-            if(grille->getCase(posX+1,posY)->getPheromoneFoodLevel()>foodLevel){
-                foodLevel = grille->getCase(posX+1,posY)->getPheromoneFoodLevel();
-                newPosX = posX+1;
-                newPosY = posY;
-            }
-            if(grille->getCase(posX-1,posY-1)->getPheromoneFoodLevel()>foodLevel){
-                foodLevel = grille->getCase(posX-1,posY-1)->getPheromoneFoodLevel();
-                newPosX = posX-1;
-                newPosY = posY-1;
-            }
-            if(grille->getCase(posX,posY-1)->getPheromoneFoodLevel()>foodLevel){
-                foodLevel = grille->getCase(posX,posY-1)->getPheromoneFoodLevel();
-                newPosX = posX;
-                newPosY = posY-1;
-            }
-            if(grille->getCase(posX+1,posY-1)->getPheromoneFoodLevel()>foodLevel){
-                foodLevel = grille->getCase(posX+1,posY-1)->getPheromoneFoodLevel();
-                newPosX = posX+1;
-                newPosY = posY-1;
-            }
-        }
-
-
-
-        if(foodLevel !=0){
-            posX = newPosX;
-            posY = newPosY;
         }else{
-            randPos();
+            posX = newDirection.getX();
+            posY = newDirection.getY();
         }
     }else{
         randPos();
     }
 
+
+}
+
+Direction Ant::findMoreFood(){
+    int food = grille->getCase(posX,posY)->getPheromoneFoodLevel();
+    int newPosX = posX;
+    int newPosY = posY;
+    for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
+        int x = (*it)->getX();
+        int y = (*it)->getY();
+        if(grille->getCase(x,y)->getPheromoneFoodLevel() > food){
+            newPosX = x;
+            newPosY = y;
+        }
+    }
+    return Direction(newPosX,newPosY);
+}
+
+Direction Ant::findLessFood(){
+    int food = grille->getCase(posX,posY)->getPheromoneFoodLevel();
+    int newPosX = posX;
+    int newPosY = posY;
+    for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
+        int x = (*it)->getX();
+        int y = (*it)->getY();
+        if(grille->getCase(x,y)->getPheromoneFoodLevel() < food){
+            newPosX = x;
+            newPosY = y;
+        }
+    }
+    return Direction(newPosX,newPosY);
+}
+
+Direction Ant::findMoreTravel(){
+    int travel = grille->getCase(posX,posY)->getPheromoneTravelLevel();
+    int newPosX = posX;
+    int newPosY = posY;
+    for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
+        int x = (*it)->getX();
+        int y = (*it)->getY();
+        if(grille->getCase(x,y)->getPheromoneTravelLevel() > travel){
+            newPosX = x;
+            newPosY = y;
+        }
+    }
+    return Direction(newPosX,newPosY);
+}
+
+Direction Ant::findLessTravel(){
+    int travel = grille->getCase(posX,posY)->getPheromoneTravelLevel();
+    int newPosX = posX;
+    int newPosY = posY;
+    for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
+        int x = (*it)->getX();
+        int y = (*it)->getY();
+        if(grille->getCase(x,y)->getPheromoneTravelLevel() < travel){
+            newPosX = x;
+            newPosY = y;
+        }
+    }
+    return Direction(newPosX,newPosY);
 }
 
 void Ant::randPos(){
-    int position = rand()%8 +1;
-    switch(position){
-    case 1:
-        posX-=1;
-        posY+=1;
-        break;
-    case 2:
-        posY+=1;
-        break;
-    case 3:
-        posX+=1;
-        posY+=1;
-        break;
-    case 4:
-        posX-=1;
-        break;
-    case 5:
-        posX+=1;
-        break;
-    case 6:
-        posX-=1;
-        posY-=1;
-        break;
-    case 7:
-        posY-=1;
-        break;
-    case 8:
-        posX+=1;
-        posY-=1;
-        break;
+    int randomPosition = rand()%directions.size();
+    int compteur = 0;
+    for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
+        if(compteur == randomPosition){
+            posX = (*it)->getX();
+            posY = (*it)->getY();
+        }
+        compteur++;
+    }
+}
 
+void Ant::getDirections(){
+    directions.clear();
+    Direction* nw = new Direction(posX-1, posY-1);
+    Direction* n = new Direction(posX, posY-1);
+    Direction* ne = new Direction(posX+1,posY-1);
+    Direction* w = new Direction(posX-1, posY);
+    Direction* e = new Direction(posX+1, posY);
+    Direction* sw = new Direction(posX-1, posY+1);
+    Direction* s = new Direction(posX, posY+1);
+    Direction* se = new Direction(posX+1, posY+1);
+    directions.push_back(se);
+    directions.push_back(s);
+    directions.push_back(sw);
+    directions.push_back(e);
+    directions.push_back(w);
+    directions.push_back(ne);
+    directions.push_back(n);
+    directions.push_back(nw);
+    updateDirections();
+}
+
+void Ant::updateDirections(){
+    for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
+        int x = (*it)->getX();
+        int y = (*it)->getY();
+        if( x<1 || x>98 || y<1 || y>98 ){
+            directions.remove(*it);
+            it--;
+        }else if(grille->getCase(x,y)->isWall()){
+            directions.remove(*it);
+            it--;
+        }
+    }
+}
+
+void Ant::diffuse(){
+    int foodLevel = grille->getCase(posX,posY)->getPheromoneFoodLevel();
+    spreadPheromoneFood(posX-1, posY-1,foodLevel);
+    spreadPheromoneFood(posX+1,posY-1,foodLevel);
+    spreadPheromoneFood(posX-1, posY,foodLevel);
+    spreadPheromoneFood(posX+1, posY,foodLevel);
+    spreadPheromoneFood(posX-1, posY+1,foodLevel);
+    spreadPheromoneFood(posX, posY+1,foodLevel);
+    spreadPheromoneFood(posX+1, posY+1,foodLevel);
+
+    spreadPheromoneFood(posX-2, posY-2,foodLevel/2);
+    spreadPheromoneFood(posX-1, posY-2,foodLevel/2);
+    spreadPheromoneFood(posX, posY-2,foodLevel/2);
+    spreadPheromoneFood(posX+1, posY-2,foodLevel/2);
+    spreadPheromoneFood(posX+2, posY-2,foodLevel/2);
+
+    spreadPheromoneFood(posX-2, posY-1,foodLevel/2);
+    spreadPheromoneFood(posX-2, posY,foodLevel/2);
+    spreadPheromoneFood(posX-2, posY+1,foodLevel/2);
+    spreadPheromoneFood(posX-2, posY+2,foodLevel/2);
+    spreadPheromoneFood(posX-1, posY+2,foodLevel/2);
+    spreadPheromoneFood(posX, posY+2,foodLevel/2);
+    spreadPheromoneFood(posX+1, posY+2,foodLevel/2);
+    spreadPheromoneFood(posX+2, posY+2,foodLevel/2);
+
+    spreadPheromoneFood(posX+2, posY-1,foodLevel/2);
+    spreadPheromoneFood(posX+2, posY,foodLevel/2);
+    spreadPheromoneFood(posX+2, posY+1,foodLevel/2);
+
+
+
+}
+
+void Ant::spreadPheromoneFood(int x, int y, int food){
+    if(x>0 && x <99 && y > 0 && y<99){
+        food /= 3;
+        if(!grille->getCase(x,y)->isFood()&&grille->getCase(x, y)->getPheromoneFoodLevel()<food)grille->getCase(x, y)->setPheromoneFoodLevel(food);
     }
 }

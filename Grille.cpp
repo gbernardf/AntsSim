@@ -22,9 +22,17 @@ void Grille::draw(){
     for(int i = 0;i<100;i++){
         for(int j = 0; j<100;j++){
             SDL_Rect fillRect = { j*6, i*6 ,6, 6};
-            Uint8 foodLevel = cases[i][j]->getPheromoneFoodLevel();
-            Uint8 travelLevel = cases[i][j]->getPheromoneTravelLevel();
-            SDL_SetRenderDrawColor( renderer, foodLevel, 0x00, travelLevel, 0xFF );
+            if(cases[i][j]->isColony()){
+                SDL_SetRenderDrawColor( renderer, 0x00, 0xFF, 0x00, 0xFF );
+            }else if(cases[i][j]->isFood()){
+                SDL_SetRenderDrawColor( renderer, 0xFF, 0xB4, 0x00, 0xFF );
+            }else if(cases[i][j]->isWall()){
+                SDL_SetRenderDrawColor( renderer, 0x85, 0x85, 0x85, 0xFF );
+            }else{
+                Uint8 foodLevel = cases[i][j]->getPheromoneFoodLevel();
+                Uint8 travelLevel = cases[i][j]->getPheromoneTravelLevel();
+                SDL_SetRenderDrawColor( renderer, foodLevel, 0x00, travelLevel, 0xFF );
+            }
             SDL_RenderFillRect( renderer, &fillRect );
 
         }
@@ -34,15 +42,24 @@ void Grille::draw(){
 
 void Grille::lowerPheromonLevel(){
     compteur ++;
-    if(compteur == 10){
+    int lowerLevel = 1;
+    if(compteur == 25){
          for(int i = 0;i<100;i++){
             for(int j = 0; j<100;j++){
                 if(!cases[i][j]->isColony() && !cases[i][j]->isFood()){
-                    if(cases[i][j]->getPheromoneFoodLevel() > 0){
-                        cases[i][j]->setPheromoneFoodLevel(cases[i][j]->getPheromoneFoodLevel() - 1 );
+                    if(cases[i][j]->getPheromoneFoodLevel() > lowerLevel-1){
+                        cases[i][j]->setPheromoneFoodLevel(cases[i][j]->getPheromoneFoodLevel() - lowerLevel );
                     }
-                    if(cases[i][j]->getPheromoneTravelLevel() > 0){
-                        cases[i][j]->setPheromoneTravelLevel(cases[i][j]->getPheromoneTravelLevel() - 1 );
+                    if(cases[i][j]->getPheromoneTravelLevel() > lowerLevel-1){
+                        cases[i][j]->setPheromoneTravelLevel(cases[i][j]->getPheromoneTravelLevel() - lowerLevel);
+                    }
+                }else if(cases[i][j]->isColony()){
+                    if(cases[i][j]->getPheromoneFoodLevel() > lowerLevel-1){
+                        cases[i][j]->setPheromoneFoodLevel(cases[i][j]->getPheromoneFoodLevel() - lowerLevel );
+                    }
+                }else if(cases[i][j]->isFood()){
+                    if(cases[i][j]->getPheromoneTravelLevel() > lowerLevel-1){
+                        cases[i][j]->setPheromoneTravelLevel(cases[i][j]->getPheromoneTravelLevel() - lowerLevel );
                     }
                 }
             }

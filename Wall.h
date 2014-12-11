@@ -1,18 +1,17 @@
-#ifndef COLONY_H
-#define COLONY_H
-
+#ifndef WALL_H
+#define WALL_H
 #include "Grille.h"
 
-class Colony
+class Wall
 {
 public:
-    Colony(Grille *grille, int x, int y);
+    Wall(Grille *grille, int x, int y);
+
 private:
     Grille* grille;
     int posX;
     int posY;
-
     void setUp();
 };
 
-#endif // COLONY_H
+#endif // WALL_H
