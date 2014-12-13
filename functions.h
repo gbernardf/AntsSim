@@ -25,6 +25,7 @@ public:
     SDL_Window* createWindow(string windowName);
     void setScreenSurface(SDL_Surface* screen);
     void renderTexture(SDL_Texture* texture, SDL_Rect *srcPortion, int x, int y);
+    void renderTexture(SDL_Texture* texture, SDL_Rect *srcPortion, SDL_Rect *srcDest);
     void changeAlpha(SDL_Texture* texture, Uint8 newAlpha);
     void cleanSurfaces();
     bool inSpace(int x, int y, SDL_Rect* space);

@@ -1,11 +1,12 @@
 CC=g++
 CFLAGS=-c -Wall
-LIBS = -lSDL2
+LIBS = -lSDL2 -lSDL2_ttf -lSDL2_image
+
 
 all: ANTU
 
-ANTU: main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o
-	$(CC) main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o -o ANTU $(LIBS)
+ANTU: main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o functions.o Bouton.o Settings.o
+	$(CC) main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o functions.o Bouton.o Settings.o -o ANTU $(LIBS)
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp $(LIBS)
@@ -30,6 +31,15 @@ Wall.o: Wall.cpp Wall.h Grille.h
 
 Direction.o: Direction.cpp Direction.h
 	$(CC) $(CFLAGS) Direction.cpp $(LIBS)
+
+functions.o: functions.cpp functions.h
+	$(CC) $(CFLAGS) functions.cpp $(LIBS)
+
+Settings.o: Settings.cpp Settings.h
+	$(CC) $(CFLAGS) Settings.cpp $(LIBS)
+
+Bouton.o: Bouton.cpp Bouton.h
+	$(CC) $(CFLAGS) Bouton.cpp $(LIBS)
 
 
 clean:

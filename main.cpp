@@ -9,8 +9,17 @@
 #include "Wall.h"
 #include "functions.h"
 #include "Settings.h"
+#include "Bouton.h"
 
 #include <list>
+
+const std::string PNG_PATH = "../PNGs_Ants/";
+
+void drawBoutons(std::list<Bouton*> *boutonsList, SDL_Renderer* renderer){
+    for (std::list<Bouton*>::const_iterator it = boutonsList->begin(), end = boutonsList->end(); it != end; ++it) {
+        (*it)->draw(renderer);
+    }
+}
 
 
 int main(int argc, char* argv[]) {
@@ -33,49 +42,69 @@ int main(int argc, char* argv[]) {
     SDL_Window* window = NULL;
     SDL_Renderer* renderer = NULL;
     SDL_Surface* screenSurface = NULL;
-    SDL_Rect mapViewPort;
-    mapViewPort.x = 600;
-    mapViewPort.y = 0;
-    mapViewPort.w = 600;
-    mapViewPort.h = 600;
-    SDL_Rect statsViewPort;
-    statsViewPort.x = 0;
-    statsViewPort.y = 0;
-    statsViewPort.w = 600;
-    statsViewPort.h = 600;
+    
+    
 
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         printf("Init error ! SDL_Error: %s\n", SDL_GetError());
     } else {
-        IMG_Init(IMG_INIT_PNG);
-        TTF_Init();
+
         SDL_Event event;
-        window = SDL_CreateWindow("Swarm Intelligence.",
-                                    SDL_WINDOWPOS_UNDEFINED,
-                                    SDL_WINDOWPOS_UNDEFINED,
-                                    SCREEN_WIDTH,
-                                    SCREEN_HEIGHT,
-                                    SDL_WINDOW_SHOWN
-                                    );
-        screenSurface = SDL_GetWindowSurface(window);
+        window = toolbox.createWindow("Swarm Intelligence.");
         renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED| SDL_RENDERER_PRESENTVSYNC);
-        toolbox.setRenderer(renderer);
-        toolbox.setScreenSurface(screenSurface);
-        toolbox.setFont("/usr/share/cups/fonts/FreeMonoBold.ttf");
         SDL_SetRenderDrawColor(renderer,0x00,0x00,0x00,0x00);
         SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_ADD);
+        toolbox.setRenderer(renderer);
+        int imgFlags = IMG_INIT_PNG;
+        
 
+        SDL_Rect mapViewPort;
+        mapViewPort.x = 600;
+        mapViewPort.y = 0;
+        mapViewPort.w = 600;
+        mapViewPort.h = 600;
+        SDL_Rect statsViewPort;
+        statsViewPort.x = 0;
+        statsViewPort.y = 0;
+        statsViewPort.w = 600;
+        statsViewPort.h = 600;
+
+        
+        IMG_Init(imgFlags);
+        TTF_Init();
         if (window == NULL) {
             printf("Window could not be created! SDL_Error:%s\n", SDL_GetError());
         } else {
-
+            screenSurface = SDL_GetWindowSurface(window);
+            toolbox.setScreenSurface(screenSurface);
+            toolbox.setFont("/usr/share/cups/fonts/FreeMonoBold.ttf");
             Settings* settings = new Settings();
             Grille grille(renderer, settings);
+            std::list<Bouton*> boutons;
 
+            Bouton* dissipationPhromnesP = new Bouton(&(settings->diffusePheromones));
+            dissipationPhromnesP->setToolbox(&toolbox);
+            dissipationPhromnesP->loadTexture(PNG_PATH + "boutonPlus.png");
+            dissipationPhromnesP->setValuesModifications(100,5,5);
+            dissipationPhromnesP->setViewport(&statsViewPort);
+            SDL_Rect location;
+            location.h = 28;
+            location.w = 28;
+            location.x = 0;
+            location.y = 50;
+            dissipationPhromnesP->setLocation(location);
 
-            int colonyX = 90;
-            int colonyY = 90;
-            //Colony colony(&grille,colonyX,colonyY);
+            Bouton* dissipationPhromnesM = new Bouton(&(settings->diffusePheromones));
+            dissipationPhromnesM->setToolbox(&toolbox);
+            dissipationPhromnesM->loadTexture(PNG_PATH + "boutonMoins.png");
+            dissipationPhromnesM->setValuesModifications(100,5,5);
+            dissipationPhromnesM->setViewport(&statsViewPort);
+            location.x = 100;
+            dissipationPhromnesM->setLocation(location);
+
+            boutons.push_back(dissipationPhromnesP);
+            boutons.push_back(dissipationPhromnesM);
+
             std::list <Miel*> miels;
             std::list <Wall*> walls;
             int antNumber = 400;
@@ -102,6 +131,7 @@ int main(int argc, char* argv[]) {
                 SDL_RenderFillRect( renderer, &fillRect );
                 toolbox.renderTexture(textTest2,&statsViewPort,12,12);
                 toolbox.renderTexture(textTest,&statsViewPort,10,10);
+                drawBoutons(&boutons,renderer);
                 SDL_RenderSetViewport(renderer,&mapViewPort);
 
                 while(SDL_PollEvent(&event) != 0){

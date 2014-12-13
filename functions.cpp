@@ -24,9 +24,12 @@ void functions::setFont(string fontPath){
 
 SDL_Surface* functions::loadImage(string imagePath){
     SDL_Surface* loadedImage = IMG_Load(imagePath.c_str());
+    if(!loadedImage){
+        printf("IMG_Load: %s\n", IMG_GetError());
+    }
     SDL_Surface* optimizedImage = NULL;
     if(loadedImage == NULL){
-        cout<<"Cant load image: " + imagePath + ".\n";
+        cout<<"Cant load image: " + imagePath + "\n";
     }else{
         optimizedImage = SDL_ConvertSurface(loadedImage,screen->format,0);//NULL
         SDL_SetColorKey( optimizedImage, SDL_TRUE, SDL_MapRGB( optimizedImage->format, 0xFF, 0x00, 0xFF ) );
@@ -83,6 +86,10 @@ void functions::renderTexture(SDL_Texture *texture, SDL_Rect* srcPortion, int x,
     }
 
     SDL_RenderCopy(renderer,texture,srcPortion,&destRect);
+}
+
+void functions::renderTexture(SDL_Texture* texture, SDL_Rect *srcPortion, SDL_Rect *srcDest){
+    SDL_RenderCopy(renderer,texture,srcPortion,srcDest);
 }
 
 void functions::changeAlpha(SDL_Texture* texture, Uint8 newAlpha){
