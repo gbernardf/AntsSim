@@ -46,7 +46,7 @@ void Grille::draw(){
 void Grille::lowerPheromonLevel(){
     compteur ++;
     int lowerLevel = 1;
-    if(compteur == settings->tauxEvaPheromones){
+    if(compteur >= settings->tauxEvaPheromones){
          for(int i = 0;i<100;i++){
             for(int j = 0; j<100;j++){
                 if(!cases[i][j]->isColony() && !cases[i][j]->isFood()){

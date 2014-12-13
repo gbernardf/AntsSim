@@ -8,15 +8,17 @@ class Bouton
 {
 public:
     Bouton(int* value);
-    void setViewport(SDL_Rect* viewPort);
     void setLocation(SDL_Rect location);
     void loadTexture(std::string filePath);
     void setToolbox(functions* toolbox);
     void setValuesModifications(int max, int min, int pas);
     void draw(SDL_Renderer* renderer);
+    void setUp(bool isUpButton);
+    void activate();
+    bool hit(int x, int y);
+private:
     void upValue();
     void lowerValue();
-private:
     int* value;
     SDL_Texture* texture;
     SDL_Rect* viewPort;
@@ -25,6 +27,7 @@ private:
     int pas;
     int maxValue;
     int minValue;
+    bool up;
 
 };
 

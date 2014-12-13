@@ -4,10 +4,6 @@ Bouton::Bouton(int* value){
     this->value = value;
 }
 
-void Bouton::setViewport(SDL_Rect* viewPort){
-    this->viewPort = viewPort;
-}
-
 void Bouton::setLocation(SDL_Rect location){
     this->location = location;
 
@@ -28,17 +24,38 @@ void Bouton::setValuesModifications(int max, int min, int pas){
 }
 
 void Bouton::draw(SDL_Renderer* renderer){
-
     SDL_QueryTexture(texture,NULL,NULL,&location.w,&location.h);
     SDL_RenderCopy(renderer,texture,NULL,&location);
 }
 
 void Bouton::upValue(){
+    std::cout<<"Up !"<<std::endl;
     if(*value+pas <= maxValue)*value+=pas;
+    std::cout<<*value<<std::endl;
 }
 
 void Bouton::lowerValue(){
+    std::cout<<"Down !"<<std::endl;
     if(*value-pas >= minValue)*value-=pas;
+    std::cout<<*value<<std::endl;
 }
 
+void Bouton::activate(){
+    if(up){
+        upValue();
+    }else{
+        lowerValue();
+    }
+}
+
+void Bouton::setUp(bool isUpButton){
+    up = isUpButton;
+}
+
+bool Bouton::hit(int x, int y){
+    if(x>= location.x && x<= (location.x+location.w) && y>= location.y && y<= (location.y+location.h)){
+        return true;
+    }
+    return false;
+}
 
