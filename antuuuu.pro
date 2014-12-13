@@ -6,7 +6,7 @@ CONFIG -= qt
 INCLUDEPATH += /usr/include/SDL2
 LIBS += -lSDL2
 LIBS += -lSDL2_ttf
-LIBS += -lSDL_image
+LIBS += -lSDL2_image
 
 
 SOURCES += main.cpp \
@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     Wall.cpp \
     Direction.cpp \
     functions.cpp \
-    Settings.cpp
+    Settings.cpp \
+    Bouton.cpp
 
 HEADERS += \
     Ant.h \
@@ -29,5 +30,6 @@ HEADERS += \
     Wall.h \
     Direction.h \
     functions.h \
-    Settings.h
+    Settings.h \
+    Bouton.h
 
