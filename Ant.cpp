@@ -1,7 +1,9 @@
 #include "Ant.h"
+#include <iostream>
 
-Ant::Ant(Grille *grille, SDL_Renderer *renderer)
+Ant::Ant(Grille *grille, SDL_Renderer *renderer, Settings* settings)
 {
+    this->settings = settings;
     this->grille = grille;
     this->renderer = renderer;
     carrying = false;
@@ -10,12 +12,14 @@ Ant::Ant(Grille *grille, SDL_Renderer *renderer)
 
 
 void Ant::move(){
+    if(grille->getCase(posX,posY)->isWall())return;
     int travel = grille->getCase(posX,posY)->getPheromoneTravelLevel();
     int food = grille->getCase(posX,posY)->getPheromoneFoodLevel();
 
     if(grille->getCase(posX,posY)->isFood()&&searching == true){
         carrying = true;
         searching = false;
+        if(settings->foodConsume)grille->eat(posX,posY);
     }
     if((grille->getCase(posX,posY)->isColony()) && (carrying == true)){
         carrying = false;
@@ -69,20 +73,14 @@ void Ant::setPosY(int y){
 
 void Ant::searchPos(){
     getDirections();
-    int odds = rand()%100 +1;
-    if(odds > 0){
+    int odds = rand()%1000 ;
+    if(odds>settings->randomFourmis){
         Direction newDirection(posX,posY);
         if(searching){
             newDirection = findMoreFood();
-            if(newDirection.getX() == posX && newDirection.getY() == posY){
-                //newDirection = findLessTravel();
-            }
 
         }else if(carrying){
             newDirection = findMoreTravel();
-            if(newDirection.getX() == posX && newDirection.getY() == posY){
-                //newDirection = findLessFood();
-            }
         }
         if(newDirection.getX() == posX && newDirection.getY() == posY){
             randPos();
@@ -112,21 +110,6 @@ Direction Ant::findMoreFood(){
     return Direction(newPosX,newPosY);
 }
 
-Direction Ant::findLessFood(){
-    int food = grille->getCase(posX,posY)->getPheromoneFoodLevel();
-    int newPosX = posX;
-    int newPosY = posY;
-    for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
-        int x = (*it)->getX();
-        int y = (*it)->getY();
-        if(grille->getCase(x,y)->getPheromoneFoodLevel() < food){
-            newPosX = x;
-            newPosY = y;
-        }
-    }
-    return Direction(newPosX,newPosY);
-}
-
 Direction Ant::findMoreTravel(){
     int travel = grille->getCase(posX,posY)->getPheromoneTravelLevel();
     int newPosX = posX;
@@ -135,21 +118,6 @@ Direction Ant::findMoreTravel(){
         int x = (*it)->getX();
         int y = (*it)->getY();
         if(grille->getCase(x,y)->getPheromoneTravelLevel() > travel){
-            newPosX = x;
-            newPosY = y;
-        }
-    }
-    return Direction(newPosX,newPosY);
-}
-
-Direction Ant::findLessTravel(){
-    int travel = grille->getCase(posX,posY)->getPheromoneTravelLevel();
-    int newPosX = posX;
-    int newPosY = posY;
-    for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
-        int x = (*it)->getX();
-        int y = (*it)->getY();
-        if(grille->getCase(x,y)->getPheromoneTravelLevel() < travel){
             newPosX = x;
             newPosY = y;
         }
@@ -170,6 +138,9 @@ void Ant::randPos(){
 }
 
 void Ant::getDirections(){
+    for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
+       delete(*it);
+    }
     directions.clear();
     Direction* nw = new Direction(posX-1, posY-1);
     Direction* n = new Direction(posX, posY-1);
@@ -179,15 +150,16 @@ void Ant::getDirections(){
     Direction* sw = new Direction(posX-1, posY+1);
     Direction* s = new Direction(posX, posY+1);
     Direction* se = new Direction(posX+1, posY+1);
-    directions.push_back(se);
-    directions.push_back(s);
-    directions.push_back(sw);
-    directions.push_back(e);
     directions.push_back(w);
     directions.push_back(ne);
     directions.push_back(n);
+    directions.push_back(sw);
+    directions.push_back(e);
     directions.push_back(nw);
+    directions.push_back(se);
+    directions.push_back(s);
     updateDirections();
+    shuffleDirections();
 }
 
 void Ant::updateDirections(){
@@ -202,6 +174,25 @@ void Ant::updateDirections(){
             it--;
         }
     }
+}
+
+void Ant::shuffleDirections(){
+    std::list<Direction*>shuffledDir;
+    int directionSize = directions.size();
+    do{
+        int randomPosition = rand()%directions.size();
+        int compteur = 0;
+        for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
+            if(compteur == randomPosition){
+                shuffledDir.push_back(*it);
+                directions.remove(*it);
+                it--;
+            }
+            compteur++;
+        }
+    }while(shuffledDir.size() < directionSize);
+    directions = shuffledDir;
+
 }
 
 void Ant::diffuse(){
@@ -239,7 +230,7 @@ void Ant::diffuse(){
 
 void Ant::spreadPheromoneFood(int x, int y, int food){
     if(x>0 && x <99 && y > 0 && y<99){
-        food /= 3;
+        food /= 2;
         if(!grille->getCase(x,y)->isFood()&&grille->getCase(x, y)->getPheromoneFoodLevel()<food)grille->getCase(x, y)->setPheromoneFoodLevel(food);
     }
 }

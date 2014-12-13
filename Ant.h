@@ -1,15 +1,16 @@
 #ifndef ANT_H
 #define ANT_H
 #include <SDL2/SDL.h>
-#include "Grille.h"
 #include <stdlib.h>
-#include "Direction.h"
 #include <list>
+#include "Direction.h"
+#include "Grille.h"
+#include "Settings.h"
 
 class Ant
 {
 public:
-    Ant(Grille* grille,SDL_Renderer* renderer);
+    Ant(Grille* grille,SDL_Renderer* renderer, Settings* settings);
     void move();
     int getPosX();
     int getPosY();
@@ -18,6 +19,7 @@ public:
 
 
 private:
+    Settings* settings;
     Grille* grille;
     SDL_Renderer* renderer;
     std::list <Direction*> directions;
@@ -28,6 +30,7 @@ private:
 
     void updateDirections();
     void getDirections();
+    void shuffleDirections();
     int posX;
     int posY;
     bool carrying;
