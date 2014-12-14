@@ -1,8 +1,8 @@
 #include "BoutonWraper.h"
 #include <sstream>
 
-SDL_Color textColor{225,225,225};
-SDL_Color textColor2{10,10,10};
+SDL_Color textColor{225,225,225,0};
+SDL_Color textColor2{10,10,10,0};
 
 BoutonWraper::BoutonWraper(SDL_Renderer* renderer, functions* toolbox, Settings* settings){
     this->settings = settings;
@@ -172,9 +172,8 @@ int BoutonWraper::setXposValeurBouton(int valeur){
         return 505;
     }else if(valeur<100){
         return 500;
-    }else if(valeur>=100){
-        return 490;
     }
+    return 490;
 }
 
 void BoutonWraper::drawBoutonsValeurs(){

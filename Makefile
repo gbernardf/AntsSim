@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-c -Wall
+CFLAGS=-c -Wall -std=c++11
 LIBS = -lSDL2 -lSDL2_ttf -lSDL2_image
 
 
