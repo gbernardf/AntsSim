@@ -3,10 +3,10 @@ CFLAGS=-c -Wall
 LIBS = -lSDL2 -lSDL2_ttf -lSDL2_image
 
 
-all: ANTU
+all: ants
 
-ANTU: main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o functions.o Bouton.o Settings.o BoutonWraper.o
-	$(CC) main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o functions.o Bouton.o Settings.o BoutonWraper.o -o ANTU $(LIBS)
+ants: main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o functions.o Bouton.o Settings.o BoutonWraper.o
+	$(CC) main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o functions.o Bouton.o Settings.o BoutonWraper.o -o ants $(LIBS)
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp $(LIBS)
@@ -46,4 +46,4 @@ BoutonWraper.o: BoutonWraper.cpp BoutonWraper.h Bouton.h Settings.h functions.h
 
 
 clean:
-	rm -rf *.o ANTU
+	rm -rf *.o ants

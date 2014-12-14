@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
         } else {
             screenSurface = SDL_GetWindowSurface(window);
             toolbox.setScreenSurface(screenSurface);
-            toolbox.setFont("/usr/share/cups/fonts/FreeMonoBold.ttf");
+            toolbox.setFont("FONT/FreeMonoBold.ttf");
             Settings* settings = new Settings();
             Grille grille(renderer, settings);
             BoutonWraper boutons(renderer,&toolbox,settings);

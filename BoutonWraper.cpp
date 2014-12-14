@@ -13,7 +13,7 @@ BoutonWraper::BoutonWraper(SDL_Renderer* renderer, functions* toolbox, Settings*
 
 void BoutonWraper::generate(){
 
-    const std::string PNG_PATH = "../PNGs_Ants/";
+    const std::string PNG_PATH = "PNG/";
 
 
     SDL_Texture* textEvaporation = toolbox->loadTextureFromText("Duree Pheromones",textColor);
