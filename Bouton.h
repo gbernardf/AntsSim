@@ -13,7 +13,8 @@ public:
     void setToolbox(functions* toolbox);
     void setValuesModifications(int max, int min, int pas);
     void draw(SDL_Renderer* renderer);
-    void setUp(bool isUpButton);
+    SDL_Texture* getTextValue();
+    void configure(bool isUpButton);
     void activate();
     bool hit(int x, int y);
     SDL_Rect location;

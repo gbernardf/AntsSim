@@ -16,11 +16,10 @@
 int main(int argc, char* argv[]) {
 
     if(argc <= 1){
-        std::cout<<"Arguments missing: WIDTH |  HEIGHT" <<std::endl;
+        std::cout<<"Arguments missing: ANTS NUMBER" <<std::endl;
+        return 1;
     }
 
-//    const int SCREEN_WIDTH = atoi(argv[1]);
-//    const int SCREEN_HEIGHT = atoi(argv[2]);
     const int ANTS_NUMBER = atoi(argv[1]);
     const int SCREEN_WIDTH = 1200;
     const int SCREEN_HEIGHT = 600;
@@ -118,7 +117,7 @@ int main(int argc, char* argv[]) {
                                 miels.push_back(miel);
                             }
                         }else if(key == SDLK_a){
-                            goAntsGo = !goAntsGo;
+                            if(!noColony)goAntsGo = !goAntsGo;
                         }else if(key == SDLK_SPACE){
                             if(!miels.empty()){
                                 miels.front()->remove();

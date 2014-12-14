@@ -47,6 +47,7 @@ SDL_Texture* functions::loadTexture(string imagePath){
 }
 
 SDL_Texture* functions::loadTextureFromText(string text, SDL_Color textColor){
+    TTF_Init();
     SDL_Surface* textSurface = TTF_RenderText_Solid( _font, text.c_str(), textColor );
     SDL_Texture* loadedTexture = SDL_CreateTextureFromSurface(renderer,textSurface);
     SDL_FreeSurface( textSurface );

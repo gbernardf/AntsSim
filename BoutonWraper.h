@@ -19,7 +19,13 @@ private:
     Settings* settings;
     std::list<Bouton*> boutons;
     std::list<SDL_Texture*> boutonsTitre;
+    std::list<SDL_Texture*> boutonsValeurs;
     std::list<SDL_Texture*>instructions;
+
+    void updateBoutonsValeurs();
+    int setXposValeurBouton(int valeur);
+    void drawBoutonsValeurs();
+    string itoa(int n);
 };
 
 #endif // BOUTONWRAPER_H

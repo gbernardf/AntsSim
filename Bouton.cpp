@@ -44,7 +44,7 @@ void Bouton::activate(){
     }
 }
 
-void Bouton::setUp(bool isUpButton){
+void Bouton::configure(bool isUpButton){
     up = isUpButton;
 }
 
@@ -54,4 +54,8 @@ bool Bouton::hit(int x, int y){
     }
     return false;
 }
+
+
+
+
 
