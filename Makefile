@@ -5,8 +5,8 @@ LIBS = -lSDL2 -lSDL2_ttf -lSDL2_image
 
 all: ANTU
 
-ANTU: main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o functions.o Bouton.o Settings.o
-	$(CC) main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o functions.o Bouton.o Settings.o -o ANTU $(LIBS)
+ANTU: main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o functions.o Bouton.o Settings.o BoutonWraper.o
+	$(CC) main.o Grille.o Case.o Ant.o Miel.o Wall.o Colony.o Direction.o functions.o Bouton.o Settings.o BoutonWraper.o -o ANTU $(LIBS)
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp $(LIBS)
@@ -41,6 +41,9 @@ Settings.o: Settings.cpp Settings.h
 Bouton.o: Bouton.cpp Bouton.h
 	$(CC) $(CFLAGS) Bouton.cpp $(LIBS)
 
+BoutonWraper.o: BoutonWraper.cpp BoutonWraper.h Bouton.h Settings.h functions.h
+	$(CC) $(CFLAGS) BoutonWraper.cpp $(LIBS)
+
 
 clean:
-	rm -rf *o ANTU
+	rm -rf *.o ANTU

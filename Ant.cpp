@@ -19,7 +19,7 @@ void Ant::move(){
     if(grille->getCase(posX,posY)->isFood()&&searching == true){
         carrying = true;
         searching = false;
-        if(settings->foodConsume)grille->eat(posX,posY);
+        if(settings->foodConsume==1)grille->eat(posX,posY);
     }
     if((grille->getCase(posX,posY)->isColony()) && (carrying == true)){
         carrying = false;
@@ -178,7 +178,7 @@ void Ant::updateDirections(){
 
 void Ant::shuffleDirections(){
     std::list<Direction*>shuffledDir;
-    int directionSize = directions.size();
+    uint directionSize = directions.size();
     do{
         int randomPosition = rand()%directions.size();
         int compteur = 0;

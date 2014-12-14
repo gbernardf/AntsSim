@@ -9,15 +9,9 @@
 #include "Wall.h"
 #include "functions.h"
 #include "Settings.h"
-#include "Bouton.h"
+#include "BoutonWraper.h"
 
 #include <list>
-
-const std::string PNG_PATH = "../PNGs_Ants/";
-
-void drawBoutons(std::list<Bouton*> *boutonsList, SDL_Renderer* renderer);
-void handleClic(int x, int y,std::list<Bouton*> *boutonsList);
-
 
 int main(int argc, char* argv[]) {
 
@@ -27,6 +21,7 @@ int main(int argc, char* argv[]) {
 
 //    const int SCREEN_WIDTH = atoi(argv[1]);
 //    const int SCREEN_HEIGHT = atoi(argv[2]);
+    const int ANTS_NUMBER = atoi(argv[1]);
     const int SCREEN_WIDTH = 1200;
     const int SCREEN_HEIGHT = 600;
     functions toolbox(SCREEN_WIDTH,SCREEN_HEIGHT);
@@ -34,6 +29,7 @@ int main(int argc, char* argv[]) {
 
     std::cout<< "SCREEN_WIDTH : " << SCREEN_WIDTH << std::endl;
     std::cout<< "SCREEN_HEIGHT: " << SCREEN_HEIGHT << std::endl;
+    std::cout<< "Ants number: " << ANTS_NUMBER << std::endl;
 
     //Render window
     SDL_Window* window = NULL;
@@ -77,45 +73,14 @@ int main(int argc, char* argv[]) {
             toolbox.setFont("/usr/share/cups/fonts/FreeMonoBold.ttf");
             Settings* settings = new Settings();
             Grille grille(renderer, settings);
-            std::list<Bouton*> boutons;
+            BoutonWraper boutons(renderer,&toolbox,settings);
+            boutons.generate();
 
-            Bouton* dissipationPhromnesP = new Bouton(&(settings->tauxEvaPheromones
-
-                                                        ));
-            dissipationPhromnesP->setUp(true);
-            dissipationPhromnesP->setToolbox(&toolbox);
-            dissipationPhromnesP->loadTexture(PNG_PATH + "boutonPlus.png");
-            dissipationPhromnesP->setValuesModifications(100,5,5);
-            SDL_Rect diffuseLocationP;
-            diffuseLocationP.h = 28;
-            diffuseLocationP.w = 28;
-            diffuseLocationP.x = 400;
-            diffuseLocationP.y = 50;
-            dissipationPhromnesP->setLocation(diffuseLocationP);
-
-            Bouton* dissipationPhromnesM = new Bouton(&(settings->tauxEvaPheromones));
-            dissipationPhromnesM->setUp(false);
-            dissipationPhromnesM->setToolbox(&toolbox);
-            dissipationPhromnesM->loadTexture(PNG_PATH + "boutonMoins.png");
-            dissipationPhromnesM->setValuesModifications(100,0,5);
-            SDL_Rect diffuseLocationM = diffuseLocationP;
-            diffuseLocationM.x = diffuseLocationP.x + 100;
-            dissipationPhromnesM->setLocation(diffuseLocationM);
-
-            boutons.push_back(dissipationPhromnesP);
-            boutons.push_back(dissipationPhromnesM);
 
             std::list <Miel*> miels;
             std::list <Wall*> walls;
-            int antNumber = 400;
-            Ant*family[antNumber];
+            Ant*family[ANTS_NUMBER];
             bool goAntsGo = false;
-            SDL_Color textColor{160,160,160};
-            SDL_Color textColor2{0,0,0};
-            SDL_Texture* textTest = toolbox.loadTextureFromText("FOR THE SWARM !!!!",textColor);
-            SDL_Texture* textTest2 = toolbox.loadTextureFromText("FOR THE SWARM !!!!",textColor2);
-            SDL_Texture* textDiffuse = toolbox.loadTextureFromText("Pheromone diffuse",textColor);
-
             bool run = true;
             bool noColony = true;
             do{
@@ -125,10 +90,6 @@ int main(int argc, char* argv[]) {
                 SDL_Rect fillRect = { statsViewPort.x, statsViewPort.y ,statsViewPort.w, statsViewPort.h};
                 SDL_SetRenderDrawColor( renderer, 0x00, 0x72, 0x92, 0xFF );
                 SDL_RenderFillRect( renderer, &fillRect );
-                toolbox.renderTexture(textTest2,&statsViewPort,12,12);
-                toolbox.renderTexture(textTest,&statsViewPort,10,10);
-                toolbox.renderTexture(textDiffuse,&statsViewPort,diffuseLocationP.x- 350,diffuseLocationP.y);
-                drawBoutons(&boutons,renderer);
                 SDL_RenderSetViewport(renderer,&mapViewPort);
 
                 while(SDL_PollEvent(&event) != 0){
@@ -168,7 +129,7 @@ int main(int argc, char* argv[]) {
                             x = (x-600)/6;
                             y = y/6;
                             Colony colony(&grille,x,y);
-                            for(int i=0;i<antNumber;i++){
+                            for(int i=0;i<ANTS_NUMBER;i++){
                                 family[i] = new Ant(&grille,renderer,settings);
                                 family[i]->setPosX(x);
                                 family[i]->setPosY(y);
@@ -178,17 +139,19 @@ int main(int argc, char* argv[]) {
                         int x;
                         int y;
                         SDL_GetMouseState( &x, &y );
-                        handleClic(x,y,&boutons);
+                        boutons.handleClic(x,y);
                     }
                 }
                 grille.draw();
                 grille.lowerPheromonLevel();
 
                 if(goAntsGo){
-                    for(int i=0;i<antNumber;i++){
+                    for(int i=0;i<ANTS_NUMBER;i++){
                         family[i]->move();
                     }
                 }
+                SDL_RenderSetViewport(renderer,&statsViewPort);
+                boutons.draw();
                 SDL_RenderPresent(renderer);
                 //SDL_Delay(50);
 
@@ -204,18 +167,7 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-void drawBoutons(std::list<Bouton*> *boutonsList, SDL_Renderer* renderer){
-    for (std::list<Bouton*>::const_iterator it = boutonsList->begin(), end = boutonsList->end(); it != end; ++it) {
-        (*it)->draw(renderer);
-    }
-}
 
-void handleClic(int x, int y,std::list<Bouton*> *boutonsList){
-    for (std::list<Bouton*>::const_iterator it = boutonsList->begin(), end = boutonsList->end(); it != end; ++it) {
-        if((*it)->hit(x,y)){
-            (*it)->activate();
-        }
-    }
-}
+
 
 

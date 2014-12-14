@@ -29,15 +29,11 @@ void Bouton::draw(SDL_Renderer* renderer){
 }
 
 void Bouton::upValue(){
-    std::cout<<"Up !"<<std::endl;
     if(*value+pas <= maxValue)*value+=pas;
-    std::cout<<*value<<std::endl;
 }
 
 void Bouton::lowerValue(){
-    std::cout<<"Down !"<<std::endl;
     if(*value-pas >= minValue)*value-=pas;
-    std::cout<<*value<<std::endl;
 }
 
 void Bouton::activate(){

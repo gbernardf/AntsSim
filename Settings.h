@@ -8,7 +8,7 @@ public:
     int tauxEvaPheromones;
     int randomFourmis;
     int diffusePheromones;
-    bool foodConsume;
+    int foodConsume;
 };
 
 #endif // SETTINGS_H

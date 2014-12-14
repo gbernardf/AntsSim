@@ -4,6 +4,6 @@ Settings::Settings()
 {
     tauxEvaPheromones = 20;
     diffusePheromones = 0;
-    randomFourmis = 50;
-    foodConsume = true;
+    randomFourmis = 5;
+    foodConsume = 0;
 }

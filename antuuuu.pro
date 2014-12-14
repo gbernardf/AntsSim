@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     Direction.cpp \
     functions.cpp \
     Settings.cpp \
-    Bouton.cpp
+    Bouton.cpp \
+    BoutonWraper.cpp
 
 HEADERS += \
     Ant.h \
@@ -31,5 +32,6 @@ HEADERS += \
     Direction.h \
     functions.h \
     Settings.h \
-    Bouton.h
+    Bouton.h \
+    BoutonWraper.h
 

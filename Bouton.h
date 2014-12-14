@@ -16,13 +16,14 @@ public:
     void setUp(bool isUpButton);
     void activate();
     bool hit(int x, int y);
+    SDL_Rect location;
 private:
     void upValue();
     void lowerValue();
     int* value;
     SDL_Texture* texture;
     SDL_Rect* viewPort;
-    SDL_Rect location;
+
     functions* toolbox;
     int pas;
     int maxValue;
