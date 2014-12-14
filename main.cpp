@@ -79,6 +79,9 @@ int main(int argc, char* argv[]) {
             std::list <Miel*> miels;
             std::list <Wall*> walls;
             Ant*family[ANTS_NUMBER];
+            for(int i=0;i<ANTS_NUMBER;i++){
+                family[i] = new Ant(&grille,renderer,settings);
+            }
             bool goAntsGo = false;
             bool run = true;
             bool noColony = true;
@@ -109,6 +112,11 @@ int main(int argc, char* argv[]) {
                                 Wall* wall = new Wall(&grille,x,y);
                                 walls.push_back(wall);
                             }
+                        }else if(key == SDLK_d){
+                            for (std::list <Wall*> ::const_iterator it = walls.begin(), end = walls.end(); it != end; ++it) {
+                                (*it)->clear();
+                            }
+
                         }else if(key == SDLK_m){
                             if(toolbox.inSpace(x,y,&mapViewPort)){
                                 x = (x-600)/6;
@@ -129,10 +137,21 @@ int main(int argc, char* argv[]) {
                             y = y/6;
                             Colony colony(&grille,x,y);
                             for(int i=0;i<ANTS_NUMBER;i++){
-                                family[i] = new Ant(&grille,renderer,settings);
                                 family[i]->setPosX(x);
                                 family[i]->setPosY(y);
                             }
+                        }else if(key == SDLK_x){
+                            noColony = true;
+                            goAntsGo = false;
+                            for (std::list <Wall*> ::const_iterator it = walls.begin(), end = walls.end(); it != end; ++it) {
+                                delete(*it);
+                            }
+                            for (std::list <Miel*> ::const_iterator it = miels.begin(), end = miels.end(); it != end; ++it) {
+                                delete(*it);
+                            }
+                            walls.clear();
+                            miels.clear();
+                            grille.clear();
                         }
                     }else if(event.type == SDL_MOUSEBUTTONDOWN){
                         int x;

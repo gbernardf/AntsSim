@@ -14,6 +14,7 @@ public:
     void eat(int x, int y);
     void addMiel(int x, int y);
     void removeMiel(int x, int y);
+    void clear();
 
 
 private:

@@ -6,6 +6,7 @@ class Wall
 {
 public:
     Wall(Grille *grille, int x, int y);
+    void clear();
 
 private:
     Grille* grille;

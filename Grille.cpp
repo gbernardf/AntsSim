@@ -184,3 +184,15 @@ void Grille::removeMiel(int x, int y){
     niveauMiel[x+3][y+1]=0;
     niveauMiel[x+3][y+2]=0;
 }
+
+void Grille::clear(){
+    for(int i = 0;i<100;i++){
+       for(int j = 0; j<100;j++){
+           cases[i][j]->setColony(false);
+           cases[i][j]->setFood(false);
+           cases[i][j]->setWall(false);
+           cases[i][j]->setPheromoneFoodLevel(0);
+           cases[i][j]->setPheromoneTravelLevel(0);
+       }
+    }
+}

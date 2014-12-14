@@ -31,6 +31,10 @@ void BoutonWraper::generate(){
     instructions.push_back(toolbox->loadTextureFromText("[W] - Creer Mur",textColor));
     instructions.push_back(toolbox->loadTextureFromText("[A] - Activer/Stopper fourmis",textColor2));
     instructions.push_back(toolbox->loadTextureFromText("[A] - Activer/Stopper fourmis",textColor));
+    instructions.push_back(toolbox->loadTextureFromText("[D] - Supprimer murs",textColor2));
+    instructions.push_back(toolbox->loadTextureFromText("[D] - Supprimer murs",textColor));
+    instructions.push_back(toolbox->loadTextureFromText("[X] - Reset",textColor2));
+    instructions.push_back(toolbox->loadTextureFromText("[X] - Reset",textColor));
 
     boutonsTitre.push_back(textEvaporation2);
     boutonsTitre.push_back(textEvaporation);
@@ -122,7 +126,7 @@ void BoutonWraper::draw(){
         }
 
     }
-    int posYinstuctions = 400;
+    int posYinstuctions = 340;
     ombre = true;
     for (std::list<SDL_Texture*>::const_iterator it = instructions.begin(), end = instructions.end(); it != end; ++it) {
         if(ombre){
