@@ -1,4 +1,5 @@
-A lancer avec **./ANTU 600 600**
+A lancer avec **./ANTU x**
 
--> on ne gère pas encore différentes résolutions.
+-> x étant le nombre de fourmis présentes dans la simulation.
+-> nécéssite la librarie SDL2
 
