@@ -23,8 +23,8 @@ void BoutonWraper::generate(){
     SDL_Texture* textRandom = toolbox->loadTextureFromText("Taux de random",textColor);
     SDL_Texture* textRandom2 = toolbox->loadTextureFromText("Taux de random",textColor2);
 
-    instructions.push_back(toolbox->loadTextureFromText("[C] - Creer colony",textColor2));
-    instructions.push_back(toolbox->loadTextureFromText("[C] - Creer colony",textColor));
+    instructions.push_back(toolbox->loadTextureFromText("[C] - Creer colonie",textColor2));
+    instructions.push_back(toolbox->loadTextureFromText("[C] - Creer colonie",textColor));
     instructions.push_back(toolbox->loadTextureFromText("[M] - Creer Miel",textColor2));
     instructions.push_back(toolbox->loadTextureFromText("[M] - Creer Miel",textColor));
     instructions.push_back(toolbox->loadTextureFromText("[W] - Creer Mur",textColor2));
