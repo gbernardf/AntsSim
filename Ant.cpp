@@ -8,6 +8,8 @@ Ant::Ant(Grille *grille, SDL_Renderer *renderer, Settings* settings)
     this->renderer = renderer;
     carrying = false;
     searching = true;
+    posX = 0;
+    posY = 0;
 }
 
 
@@ -168,17 +170,17 @@ void Ant::updateDirections(){
         int y = (*it)->getY();
         if( x<1 || x>98 || y<1 || y>98 ){
             directions.remove(*it);
-            it--;
+            --it;
         }else if(grille->getCase(x,y)->isWall()){
             directions.remove(*it);
-            it--;
+            --it;
         }
     }
 }
 
 void Ant::shuffleDirections(){
     std::list<Direction*>shuffledDir;
-    uint directionSize = directions.size();
+    unsigned int directionSize = directions.size();
     do{
         int randomPosition = rand()%directions.size();
         int compteur = 0;
@@ -186,7 +188,7 @@ void Ant::shuffleDirections(){
             if(compteur == randomPosition){
                 shuffledDir.push_back(*it);
                 directions.remove(*it);
-                it--;
+                --it;
             }
             compteur++;
         }

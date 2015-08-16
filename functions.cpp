@@ -4,7 +4,10 @@
 
 using namespace std;
 
-functions::functions(int width, int height) {
+functions::functions(int width, int height):
+screen(0),
+renderer(0)
+{
     screenWidth = width;
     screenHeight = height;
     _font = NULL;

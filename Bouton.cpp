@@ -2,6 +2,13 @@
 
 Bouton::Bouton(int* value){
     this->value = value;
+    texture = 0;
+    viewPort = 0;
+    toolbox = 0;
+    maxValue = 0;
+    minValue = 0;
+    up = false;
+    pas = 0;
 }
 
 void Bouton::setLocation(SDL_Rect location){
