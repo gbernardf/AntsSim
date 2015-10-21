@@ -6,8 +6,8 @@ class Settings
 public:
     Settings();
     int tauxEvaPheromones;
-    int randomFourmis;
     int diffusePheromones;
+    int randomFourmis;
     int foodConsume;
 };
 

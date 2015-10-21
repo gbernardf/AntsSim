@@ -1,10 +1,11 @@
 #include "Colony.h"
 
-Colony::Colony(Grille* grille,int x, int y){
-    posX = x;
-    posY = y;
-    this->grille = grille;
-    setUp();
+Colony::Colony(Grille* grille,int x, int y):
+  grille(grille),
+  posX(x),
+  posY(y)
+{
+  setUp();
 }
 
 void Colony::setUp(){

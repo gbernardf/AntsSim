@@ -1,15 +1,15 @@
 #include "Ant.h"
 #include <iostream>
 
-Ant::Ant(Grille *grille, SDL_Renderer *renderer, Settings* settings)
+Ant::Ant(Grille *grille, SDL_Renderer *renderer, Settings* settings):
+  settings(settings),
+  grille(grille),
+  renderer(renderer),
+  posX(0),
+  posY(0),
+  carrying(false),
+  searching(true)
 {
-    this->settings = settings;
-    this->grille = grille;
-    this->renderer = renderer;
-    carrying = false;
-    searching = true;
-    posX = 0;
-    posY = 0;
 }
 
 
@@ -27,7 +27,7 @@ void Ant::move(){
         carrying = false;
         searching = true;
     }
-    
+
     searchPos();
     draw();
     travel -=2;

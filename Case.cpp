@@ -1,11 +1,12 @@
 #include "Case.h"
 
-Case::Case(){
-    pheromoneFoodLevel = 0;
-    pheromoneTravelLevel = 0;
-    food = false;
-    colony = false;
-    wall = false;
+Case::Case():
+pheromoneFoodLevel(0),
+pheromoneTravelLevel(0),
+food(false),
+colony(false),
+wall(false)
+{
 }
 
 

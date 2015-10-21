@@ -22,8 +22,8 @@ private:
     Case* cases[100][100];
     int niveauMiel[100][100];
     SDL_Renderer* renderer = NULL;
-    int compteur;
     Settings* settings;
+    int compteur;
 
 };
 

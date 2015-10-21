@@ -1,9 +1,9 @@
 #include "Settings.h"
 
-Settings::Settings()
+Settings::Settings():
+  tauxEvaPheromones(20),
+  diffusePheromones(0),
+  randomFourmis(50),
+  foodConsume(0)
 {
-    tauxEvaPheromones = 20;
-    diffusePheromones = 0;
-    randomFourmis = 50;
-    foodConsume = 0;
 }

@@ -1,9 +1,10 @@
 #include "Wall.h"
 
-Wall::Wall(Grille *grille, int x, int y){
-    this->grille = grille;
-    posX = x;
-    posY = y;
+Wall::Wall(Grille *grille, int x, int y):
+    grille(grille),
+    posX(x),
+    posY(y)
+{
     setUp();
 }
 

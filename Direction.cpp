@@ -1,8 +1,9 @@
 #include "Direction.h"
 
-Direction::Direction(int x, int y){
-    dirX = x;
-    dirY = y;
+Direction::Direction(int x, int y):
+dirX(x),
+dirY(y)
+{
 }
 
 int Direction::getX(){

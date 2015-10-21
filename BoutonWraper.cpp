@@ -4,10 +4,11 @@
 SDL_Color textColor{225,225,225,0};
 SDL_Color textColor2{10,10,10,0};
 
-BoutonWraper::BoutonWraper(SDL_Renderer* renderer, functions* toolbox, Settings* settings){
-    this->settings = settings;
-    this->renderer = renderer;
-    this->toolbox = toolbox;
+BoutonWraper::BoutonWraper(SDL_Renderer* renderer, functions* toolbox, Settings* settings):
+  renderer(renderer),
+  toolbox(toolbox),
+  settings(settings)
+{
 }
 
 

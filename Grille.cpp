@@ -1,16 +1,17 @@
 #include "Grille.h"
 #include "Settings.h"
 
-Grille::Grille(SDL_Renderer* renderer, Settings* settings){
+Grille::Grille(SDL_Renderer* renderer, Settings* settings):
+  renderer(renderer),
+  settings(settings),
+  compteur(0)
+{
     for(int i = 0;i<100;i++){
         for(int j = 0; j<100;j++){
             cases[i][j] = new Case();
             niveauMiel[i][j] = 0;
         }
     }
-    compteur = 0;
-    this->renderer = renderer;
-    this->settings = settings;
 }
 
 
@@ -69,7 +70,7 @@ void Grille::lowerPheromonLevel(){
         }
         compteur = 0;
     }
-   
+
 }
 
 void Grille::eat(int x, int y){

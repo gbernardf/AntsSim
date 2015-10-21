@@ -1,13 +1,12 @@
 #include "Miel.h"
 
 
-Miel::Miel(Grille *grille, int x, int y){
-    this->grille = grille;
-    posX = x;
-    posY = y;
+Miel::Miel(Grille *grille, int x, int y):
+    grille(grille),
+    posX(x),
+    posY(y)
+{
     grille->addMiel(posX,posY);
-
-
 }
 
 void Miel::remove(){

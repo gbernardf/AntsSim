@@ -5,12 +5,12 @@
 using namespace std;
 
 functions::functions(int width, int height):
-screen(0),
-renderer(0)
+  screenWidth(width),
+  screenHeight(height),
+  screen(0),
+  renderer(0),
+  _font(NULL)
 {
-    screenWidth = width;
-    screenHeight = height;
-    _font = NULL;
 }
 
 void functions::setScreenSurface(SDL_Surface* screen){
@@ -115,4 +115,3 @@ bool functions::inSpace(int x, int y, SDL_Rect* space){
     return(x >= space->x && x< (space->x+space->w)&&
             y >= space->y && y< (space->y+space->h));
 }
-

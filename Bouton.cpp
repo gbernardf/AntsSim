@@ -1,14 +1,15 @@
 #include "Bouton.h"
 
-Bouton::Bouton(int* value){
-    this->value = value;
-    texture = 0;
-    viewPort = 0;
-    toolbox = 0;
-    maxValue = 0;
-    minValue = 0;
-    up = false;
-    pas = 0;
+Bouton::Bouton(int* value):
+  value(value),
+  texture(NULL),
+  viewPort(NULL),
+  toolbox(NULL),
+  pas(0),
+  maxValue(0),
+  minValue(0),
+  up(false)
+{
 }
 
 void Bouton::setLocation(SDL_Rect location){
@@ -61,8 +62,3 @@ bool Bouton::hit(int x, int y){
     }
     return false;
 }
-
-
-
-
-

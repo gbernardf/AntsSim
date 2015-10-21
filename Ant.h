@@ -23,6 +23,11 @@ private:
     Grille* grille;
     SDL_Renderer* renderer;
     std::list <Direction*> directions;
+    int posX;
+    int posY;
+    bool carrying;
+    bool searching;
+
     Direction findMoreFood();
     Direction findLessFood();
     Direction findMoreTravel();
@@ -31,10 +36,7 @@ private:
     void updateDirections();
     void getDirections();
     void shuffleDirections();
-    int posX;
-    int posY;
-    bool carrying;
-    bool searching;
+
     void searchPos();
     void randPos();
 
