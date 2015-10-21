@@ -5,6 +5,7 @@ Ant::Ant(Grille *grille, SDL_Renderer *renderer, Settings* settings):
   settings(settings),
   grille(grille),
   renderer(renderer),
+  directions(),
   posX(0),
   posY(0),
   carrying(false),

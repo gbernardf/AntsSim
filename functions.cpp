@@ -9,6 +9,8 @@ functions::functions(int width, int height):
   screenHeight(height),
   screen(0),
   renderer(0),
+  loadedSurfaces(),
+  loadedTextures(),
   _font(NULL)
 {
 }
