@@ -34,8 +34,8 @@ int main(int argc, char* argv[]) {
     SDL_Window* window = NULL;
     SDL_Renderer* renderer = NULL;
     SDL_Surface* screenSurface = NULL;
-    
-    
+
+
 
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         printf("Init error ! SDL_Error: %s\n", SDL_GetError());
@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_ADD);
         toolbox.setRenderer(renderer);
         int imgFlags = IMG_INIT_PNG;
-        
+
 
         SDL_Rect mapViewPort;
         mapViewPort.x = 600;
@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
         statsViewPort.w = 600;
         statsViewPort.h = 600;
 
-        
+
         IMG_Init(imgFlags);
         TTF_Init();
         if (window == NULL) {

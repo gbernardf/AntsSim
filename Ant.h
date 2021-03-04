@@ -3,6 +3,10 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <list>
+#include <list>
+#include <vector>
+#include <random>
+#include <algorithm>
 #include "Direction.h"
 #include "Grille.h"
 #include "Settings.h"

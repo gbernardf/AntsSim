@@ -180,22 +180,29 @@ void Ant::updateDirections(){
 }
 
 void Ant::shuffleDirections(){
-    std::list<Direction*>shuffledDir;
-    unsigned int directionSize = directions.size();
-    do{
-        int randomPosition = rand()%directions.size();
-        int compteur = 0;
-        for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
-            if(compteur == randomPosition){
-                shuffledDir.push_back(*it);
-                directions.remove(*it);
-                --it;
-            }
-            compteur++;
-        }
-    }while(shuffledDir.size() < directionSize);
-    directions = shuffledDir;
+   // std::list<Direction*>shuffledDir;
+   // unsigned int directionSize = directions.size();
+   // do{
+   //     int randomPosition = rand()%directions.size();
+   //     int compteur = 0;
+   //     std::cout<<"direction_size:" << directions.size() <<std::endl;
+   //     for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
+   //       if(compteur == randomPosition){
+   //             shuffledDir.push_back(*it);
+   //             directions.remove(*it);
+   //             --it;
+   //         }
+   //         compteur++;
+   //     }
+   // }while(shuffledDir.size() < directionSize);
+   // directions = shuffledDir;
 
+  std::vector<Direction*> v(directions.begin(), directions.end());
+  //  std::vector<std::reference_wrapper<const Direction*>> v(directions.cbegin(), directions.cend());
+    std::random_device rd;
+    std::mt19937 generator(rd());
+    std::shuffle(v.begin(), v.end(), generator);
+    std::copy(v.begin(), v.end(), directions.begin());
 }
 
 void Ant::diffuse(){
