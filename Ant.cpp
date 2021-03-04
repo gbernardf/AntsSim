@@ -15,7 +15,7 @@ Ant::Ant(Grille *grille, SDL_Renderer *renderer, Settings* settings):
 
 
 void Ant::move(){
-    if(grille->getCase(posX,posY)->isWall())return;
+    //if(grille->getCase(posX,posY)->isWall())return;
     int travel = grille->getCase(posX,posY)->getPheromoneTravelLevel();
     int food = grille->getCase(posX,posY)->getPheromoneFoodLevel();
 
@@ -141,6 +141,7 @@ void Ant::randPos(){
 }
 
 void Ant::getDirections(){
+
     for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
        delete(*it);
     }
@@ -170,39 +171,19 @@ void Ant::updateDirections(){
         int x = (*it)->getX();
         int y = (*it)->getY();
         if( x<1 || x>98 || y<1 || y>98 ){
-            directions.remove(*it);
-            --it;
+            it = directions.erase(it);
         }else if(grille->getCase(x,y)->isWall()){
-            directions.remove(*it);
-            --it;
+            it = directions.erase(it);
         }
     }
 }
 
 void Ant::shuffleDirections(){
-   // std::list<Direction*>shuffledDir;
-   // unsigned int directionSize = directions.size();
-   // do{
-   //     int randomPosition = rand()%directions.size();
-   //     int compteur = 0;
-   //     std::cout<<"direction_size:" << directions.size() <<std::endl;
-   //     for (std::list<Direction*>::const_iterator it = directions.begin(), end = directions.end(); it != end; ++it) {
-   //       if(compteur == randomPosition){
-   //             shuffledDir.push_back(*it);
-   //             directions.remove(*it);
-   //             --it;
-   //         }
-   //         compteur++;
-   //     }
-   // }while(shuffledDir.size() < directionSize);
-   // directions = shuffledDir;
-
   std::vector<Direction*> v(directions.begin(), directions.end());
-  //  std::vector<std::reference_wrapper<const Direction*>> v(directions.cbegin(), directions.cend());
-    std::random_device rd;
-    std::mt19937 generator(rd());
-    std::shuffle(v.begin(), v.end(), generator);
-    std::copy(v.begin(), v.end(), directions.begin());
+  std::random_device rd;
+  std::mt19937 generator(rd());
+  std::shuffle(v.begin(), v.end(), generator);
+  std::copy(v.begin(), v.end(), directions.begin());
 }
 
 void Ant::diffuse(){
